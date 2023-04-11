@@ -1,6 +1,9 @@
 import Wav2Text
-import AudioCapture
+# import AudioCapture
+import WavExtract
 
-AudioCapture.CaptureAudio()
+WavExtract.startExtract(input())
+
+# AudioCapture.CaptureAudio()
 
 print(Wav2Text.conv_wav2text())
