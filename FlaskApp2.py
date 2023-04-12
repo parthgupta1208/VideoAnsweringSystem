@@ -4,7 +4,7 @@ import wave
 import numpy as np
 import moviepy.editor as mp
 import threading
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import openai
 import os
 import speech_recognition as sr
@@ -18,6 +18,16 @@ awaiter=0
 @app.route("/")
 def hello():
     return render_template("index.html")
+
+@app.route('/Text', methods=['POST'])
+def processtext():
+    pass
+
+@app.route('/Select', methods=['POST'])
+def upload():
+    file = request.files['filePath']
+    file.save(file.filename)
+    return 'File saved at: {}'.format(file.filename)
 
 @app.route("/Capture", methods=['POST'])
 def CaptureAudio():

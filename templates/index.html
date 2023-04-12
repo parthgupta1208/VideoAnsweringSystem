@@ -4,14 +4,14 @@
 	<title>Teaching/Student/School Theme</title>
 	<style>
 		body {
-			font-family: sans-serif;
-			background-color: #0A71BB;
+			font-family: cursive;
+			background-color: #000E29;
 		}
 
 		.container {
 			margin: 20px auto;
 			padding: 20px;
-			background-color: #fff;
+			background-color: #f7f7ff4f;
 			box-shadow: 0px 0px 10px #999;
 			max-width: 1000px;
 			text-align: center;
@@ -20,40 +20,67 @@
 
 		.btn {
 			background-color:#000000F4;
-			color: #fff;
-            font-size: 20px;
-            font-family:cursive;
-			border: solid;
-			padding: 50px 50px;
-			border-radius: 100px;
-			margin: 20px;
+			color: #F7F7FFAB;
+			font-size: 15px;
+			font-family:cursive;
+			border: groove;
+			padding: 10px 30px;
+			border-radius: 30px;
+			margin: 12px;
 			cursor: pointer;
 			transition: background-color 0.5s;
-
-		}
+        }
 
 		.btn:hover {
-			background-color: #FFFFFF;
+			background-color: #F7F7FFAB;
             color: #000;
             border-color: #000;
             border-style:solid;
 		}
+
+		.textarea1 {
+			background-color: #000E29;
+			border-radius: 30px;
+			border: 2px solid #FFFFFF;
+			color: #FFFFFF;
+			font-size: 13px;
+			font-family:cursive;
+			padding: 10px;
+			margin: 12px;
+			display:inline-block;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			vertical-align: middle;
+			width: 50%;
+			height: 100px;
+			max-width: 100%;
+			max-height: 100%;
+
+
+		}
+
 	</style>
 </head>
 <body>
 	<div class="container">
 		<h1>Video Answering System</h1>
-		<p>Select Question Video File</p>
-		<form action="/Capture" method="POST" style="display: inline-block;">
+		<h2>Capture via Webcam</h2>
+		<form action="/Capture" method="POST">
 			<button class="btn" type="submit">Capture</button>
 		</form>
-        <input type="file" id="file_input" name="file_input" style="display: none;">
-        <button class="btn" type="button" onclick="document.getElementById('file_input').click()" style="display: inline-block;">Select File</button>
-        <p id="file_name"></p>
-		<form action="/function2" method="POST" enctype="multipart/form-data" style="display: inline-block;">
+		<h2>Upload Video File</h2>
+		<form action="/Select" method="POST" enctype="multipart/form-data">
+			<input type="file" id="file_input" name="file_input" style="display: none;">
+			<button class="btn" type="button" onclick="document.getElementById('file_input').click()">Select</button>
+			<p id="file_name"></p>
 			<input type="hidden" name="file_path" id="file_path">
-			<button class="btn" type="submit">Run Function 2</button>
+			<button class="btn" type="submit">Upload</button>
 		</form>
+		<h2>Input Text Prompt</h2>
+		<form action="/Text" method="POST">
+			<textarea class="textarea1" name="textboxinputdata" placeholder=" Type your Query here"></textarea>
+			<br><button class="btn" type="submit">Submit</button>
 	</div>
 	<script>
 		const fileInput = document.getElementById('file_input');
