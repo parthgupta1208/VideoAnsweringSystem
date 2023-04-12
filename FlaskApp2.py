@@ -104,7 +104,6 @@ def CaptureAudio():
     )
     print(completion['choices'][0]['message']['content'])
     html = markdown2.markdown(completion['choices'][0]['message']['content'])
-    print(html)
     return render_template("result.html", textboxdata=html)
 
 
