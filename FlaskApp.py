@@ -12,8 +12,8 @@ def hello():
 def capture():
     AudioCapture.CaptureAudio()
     converted_text=Wav2Text.conv_wav2text()
-    
-    return render_template("result.html",textboxdata=)
+
+    return render_template("result.html",textboxdata="hello")
 
 if __name__ == "__main__":
     app.run(debug=True)

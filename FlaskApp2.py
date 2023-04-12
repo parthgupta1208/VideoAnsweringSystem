@@ -8,9 +8,11 @@ from flask import Flask, render_template
 import openai
 import os
 import speech_recognition as sr
-awaiter=0
+import markdown2
+
 # setup flask
 app = Flask(__name__)
+awaiter=0
 
 # home route
 @app.route("/")
@@ -105,7 +107,9 @@ def CaptureAudio():
     {"role": "user", "content" : text}]
     )
     print(completion['choices'][0]['message']['content'])
-    return render_template("result.html",textboxdata=completion['choices'][0]['message']['content'])
+    html = markdown2.markdown(completion['choices'][0]['message']['content'])
+    return render_template("result.html", textboxdata=html)
+
 
 # @app.route("/GetOutput", methods=['POST'])
 
