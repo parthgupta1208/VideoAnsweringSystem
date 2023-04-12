@@ -5,13 +5,21 @@ import numpy as np
 import moviepy.editor as mp
 import threading
 from flask import Flask, render_template
-import AudioCapture
-
+import openai
+import os
+import speech_recognition as sr
+awaiter=0
+# setup flask
 app = Flask(__name__)
 
+# home route
 @app.route("/")
 def hello():
     return render_template("index.html")
+
+@app.route("/ccc")
+def meow():
+    return render_template("result.html",)
 
 @app.route("/Capture", methods=['POST'])
 def CaptureAudio():
@@ -45,7 +53,7 @@ def CaptureAudio():
     video_event = threading.Event()
 
     def show_video():
-        global aaa
+        global awaiter
         cap = cv2.VideoCapture(0)
 
         while not video_event.is_set():
@@ -82,7 +90,24 @@ def CaptureAudio():
     # check if program has terminated
     while awaiter!=0:
         pass
-    return render_template("index.html")
+    
+    # convert wav to text and feed to gpt
+    r = sr.Recognizer()
+    with sr.AudioFile('audio.wav') as source:
+        audio_data = r.record(source)
+    text = r.recognize_google(audio_data)
+    openai.api_key = os.getenv("OPENAI_KEY")
+    completion = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages = [{"role": "system", "content" : "You are FridayAI, a large language model trained by Parth Gupta. Answer as concisely as possible.\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-04-10"},
+    {"role": "user", "content" : "How are you?"},
+    {"role": "assistant", "content" : "I am doing well"},
+    {"role": "user", "content" : text}]
+    )
+    print(completion['choices'][0]['message']['content'])
+    return render_template("result.html",textboxdata=completion['choices'][0]['message']['content'])
+
+# @app.route("/GetOutput", methods=['POST'])
 
 if __name__ == "__main__":
     app.run(debug=True)

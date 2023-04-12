@@ -5,6 +5,8 @@ import numpy as np
 import moviepy.editor as mp
 import threading
 
+awaiter=0
+
 def CaptureAudio():
     # Creating awaiter variable so that program waits for module to complete execution before progressing
     global awaiter
@@ -36,7 +38,7 @@ def CaptureAudio():
     video_event = threading.Event()
 
     def show_video():
-        global aaa
+        global awaiter
         cap = cv2.VideoCapture(0)
 
         while not video_event.is_set():
