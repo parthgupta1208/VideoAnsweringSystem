@@ -2,13 +2,13 @@ import cv2
 import pyaudio
 import wave
 import numpy as np
-import moviepy.editor as mp
 import threading
 from flask import Flask, render_template, request
 import openai
 import os
 import speech_recognition as sr
 import markdown2
+from moviepy.editor import *
 
 # setup flask
 app = Flask(__name__)
@@ -25,9 +25,31 @@ def processtext():
 
 @app.route('/Select', methods=['POST'])
 def upload():
-    file = request.files['filePath']
+    # get file
+    file = request.files['file_input']
     file.save(file.filename)
-    return 'File saved at: {}'.format(file.filename)
+
+    # extract audio from video
+    video = VideoFileClip(file.filename)
+    audio = video.audio
+    audio.write_audiofile("audio.wav")
+
+    # convert wav to text and feed to gpt
+    r = sr.Recognizer()
+    with sr.AudioFile('audio.wav') as source:
+        audio_data = r.record(source)
+    text = r.recognize_google(audio_data)
+    openai.api_key = os.getenv("OPENAI_KEY")
+    completion = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages = [{"role": "system", "content" : "You are FridayAI, a large language model trained by Parth Gupta. Answer as concisely as possible.\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-04-10"},
+    {"role": "user", "content" : "How are you?"},
+    {"role": "assistant", "content" : "I am doing well"},
+    {"role": "user", "content" : text}]
+    )
+    print(completion['choices'][0]['message']['content'])
+    html = markdown2.markdown(completion['choices'][0]['message']['content'])
+    return render_template("result.html", textboxdata=html)
 
 @app.route("/Capture", methods=['POST'])
 def CaptureAudio():

@@ -73,8 +73,6 @@
 		<form action="/Select" method="POST" enctype="multipart/form-data">
 			<input type="file" id="file_input" name="file_input" style="display: none;">
 			<button class="btn" type="button" onclick="document.getElementById('file_input').click()">Select</button>
-			<p id="file_name"></p>
-			<input type="hidden" name="file_path" id="file_path">
 			<button class="btn" type="submit">Upload</button>
 		</form>
 		<h2>Input Text Prompt</h2>
@@ -82,14 +80,6 @@
 			<textarea class="textarea1" name="textboxinputdata" placeholder=" Type your Query here"></textarea>
 			<br><button class="btn" type="submit">Submit</button>
 	</div>
-	<script>
-		const fileInput = document.getElementById('file_input');
-		const fileName = document.getElementById('file_name');
-		const filePath = document.getElementById('file_path');
-		fileInput.addEventListener('change', (event) => {
-			fileName.textContent = event.target.files[0].name;
-			filePath.value = event.target.value;
-		});
-	</script>
+	
 </body>
 </html>
