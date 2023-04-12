@@ -19,10 +19,6 @@ awaiter=0
 def hello():
     return render_template("index.html")
 
-@app.route("/ccc")
-def meow():
-    return render_template("result.html",)
-
 @app.route("/Capture", methods=['POST'])
 def CaptureAudio():
     # Creating awaiter variable so that program waits for module to complete execution before progressing
@@ -108,6 +104,7 @@ def CaptureAudio():
     )
     print(completion['choices'][0]['message']['content'])
     html = markdown2.markdown(completion['choices'][0]['message']['content'])
+    print(html)
     return render_template("result.html", textboxdata=html)
 
 
